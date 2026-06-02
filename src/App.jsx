@@ -23,13 +23,13 @@ const authData = useContext(AuthContext)
 //   }
 // }, [authData]);
   
-
+console.log(authData);
 const handleLogin=(email,password)=>{
-  if(email == 'admin@me.com' && password == '123'){
+  if(email == 'admin@gmail.com' && password == '123'){
     setuser('admin')
     localStorage.setItem('loggedInUser', JSON.stringify({role: 'admin'}))
   }else if(authData){
-    const employee = authData.employees.find((e) => e.email == email && e.password == password)
+   const employee = authData.employees.find((e) => e.email === email && e.password === password);
     if(employee){
       setuser('employee')
       localStorage.setItem('loggedInUser', JSON.stringify({role: 'employee'}))
