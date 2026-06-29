@@ -15,19 +15,20 @@ const Login = ({handleLogin}) => {
   }
 
   return (
-    <div className='flex h-screen w-screen items-center justify-center'>
-      <div className='border-2 rounded-xl border-emerald-600 p-20'>
+    <div className='w-full'>
+      <div className='rounded-xl border border-emerald-600 bg-[#171717] p-8 shadow-2xl shadow-black/30 md:p-10'>
+        <h2 className='mb-6 text-2xl font-semibold text-white'>Login</h2>
 
         <form
           onSubmit={submitHandler}
-          className='flex flex-col items-center justify-center'
+          className='flex flex-col'
         >
 
           <input
             value={email}
             onChange={(e)=> setEmail(e.target.value)}
             required
-            className='text-black outline-none bg-transparent border-2 border-emerald-600 text-xl py-3 px-5 rounded-full placeholder:text-gray-400'
+            className='outline-none bg-transparent border-2 border-emerald-600 text-lg py-3 px-5 rounded-lg placeholder:text-gray-400'
             type="email"
             placeholder="Enter your email"
           />
@@ -36,12 +37,12 @@ const Login = ({handleLogin}) => {
             value={password}
             onChange={(e)=> setPassword(e.target.value)}
             required
-            className='text-black outline-none bg-transparent border-2 border-emerald-600 text-xl py-3 px-5 rounded-full mt-3 placeholder:text-gray-400'
+            className='outline-none bg-transparent border-2 border-emerald-600 text-lg py-3 px-5 rounded-lg mt-3 placeholder:text-gray-400'
             type="password"
             placeholder="Enter password"
           />
 
-          <button className='mt-5 text-white border-2 bg-emerald-600 text-xl py-3 px-5 rounded-full'>
+          <button className='mt-5 text-white bg-emerald-600 text-lg font-semibold py-3 px-5 rounded-lg hover:bg-emerald-700'>
             Log in
           </button>
 
