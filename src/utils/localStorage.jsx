@@ -3,6 +3,7 @@ const employees = [
     id: 1,
     email: "employee1@gmail.com",
     password: "123",
+    joiningAt: "2026-01-08T09:00:00.000Z",
     tasks: [
       {
         active: true,
@@ -41,6 +42,7 @@ const employees = [
     id: 2,
     email: "employee2@gmail.com",
     password: "123",
+    joiningAt: "2026-01-15T10:00:00.000Z",
     tasks: [
       {
         active: true,
@@ -79,6 +81,7 @@ const employees = [
     id: 3,
     email: "employee3@gmail.com",
     password: "123",
+    joiningAt: "2026-02-01T08:00:00.000Z",
     tasks: [
       {
         active: true,
@@ -117,6 +120,7 @@ const employees = [
     id: 4,
     email: "employee4@gmail.com",
     password: "123",
+    joiningAt: "2026-02-10T11:00:00.000Z",
     tasks: [
       {
         active: true,
@@ -155,6 +159,7 @@ const employees = [
     id: 5,
     email: "employee5@gmail.com",
     password: "123",
+    joiningAt: "2026-02-18T09:30:00.000Z",
     tasks: [
       {
         active: true,
@@ -204,11 +209,16 @@ export const setLocalStorage = () => {
   if (!localStorage.getItem('admin')) {
     localStorage.setItem('admin', JSON.stringify(admin))
   }
+
+  if (!localStorage.getItem('chats')) {
+    localStorage.setItem('chats', JSON.stringify([]))
+  }
 }
 export const getLocalStorage = () => {
   const employees= JSON.parse(localStorage.getItem('employees')) || []
   const admin= JSON.parse(localStorage.getItem('admin')) || null
+  const chats= JSON.parse(localStorage.getItem('chats')) || []
 
-  return {employees,admin}
+  return {employees,admin,chats}
  
 }

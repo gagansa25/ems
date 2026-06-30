@@ -24,6 +24,7 @@ const CreateTask = ({ employees, handleCreateTask }) => {
       newTask: true,
       completed: false,
       failed: false,
+      activeSince: new Date().toISOString(),
       taskTitle: formData.taskTitle,
       taskDescription: formData.taskDescription,
       taskDate: formData.taskDate,

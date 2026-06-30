@@ -6,6 +6,68 @@ const getTaskCount = (employees, status) => {
   }, 0)
 }
 
+const getEmployeeWorkTime = (employeeId) => {
+  const shifts = [
+    '09:00 AM - 06:00 PM',
+    '10:00 AM - 07:00 PM',
+    '08:00 AM - 05:00 PM',
+    '11:00 AM - 08:00 PM',
+    '09:30 AM - 06:30 PM',
+  ]
+
+  return shifts[(employeeId - 1) % shifts.length]
+}
+
+const getEmployeeStatus = (tasks) => {
+  const hasFailedTask = tasks.some((task) => task.failed)
+  const hasActiveTask = tasks.some((task) => task.active)
+  const hasNewTask = tasks.some((task) => task.newTask)
+  const allTasksCompleted = tasks.length > 0 && tasks.every((task) => task.completed)
+
+  if (hasActiveTask) {
+    return {
+      label: 'Working',
+      detail: 'Handling active tasks',
+      className: 'border-emerald-400/40 bg-emerald-500/15 text-emerald-200',
+      dotClassName: 'bg-emerald-300',
+    }
+  }
+
+  if (hasNewTask) {
+    return {
+      label: 'Available',
+      detail: 'Ready to accept work',
+      className: 'border-cyan-400/40 bg-cyan-500/15 text-cyan-200',
+      dotClassName: 'bg-cyan-300',
+    }
+  }
+
+  if (hasFailedTask) {
+    return {
+      label: 'Needs Review',
+      detail: 'Blocked by failed task',
+      className: 'border-rose-400/40 bg-rose-500/15 text-rose-200',
+      dotClassName: 'bg-rose-300',
+    }
+  }
+
+  if (allTasksCompleted) {
+    return {
+      label: 'Completed',
+      detail: 'All tasks finished',
+      className: 'border-blue-400/40 bg-blue-500/15 text-blue-200',
+      dotClassName: 'bg-blue-300',
+    }
+  }
+
+  return {
+    label: 'Idle',
+    detail: 'No assigned task',
+    className: 'border-white/20 bg-white/10 text-gray-200',
+    dotClassName: 'bg-gray-300',
+  }
+}
+
 const Home = ({ employees, handleAdminLogin, handleEmployeeLogin }) => {
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [showEmployeeLogin, setShowEmployeeLogin] = useState(false)
@@ -214,6 +276,8 @@ const Home = ({ employees, handleAdminLogin, handleEmployeeLogin }) => {
           {employees.map((employee) => {
             const activeCount = employee.tasks.filter((task) => task.active || task.newTask).length
             const completedCount = employee.tasks.filter((task) => task.completed).length
+            const employeeStatus = getEmployeeStatus(employee.tasks)
+            const workTime = getEmployeeWorkTime(employee.id)
 
             return (
               <button
@@ -225,10 +289,23 @@ const Home = ({ employees, handleAdminLogin, handleEmployeeLogin }) => {
                   <div className='flex h-12 w-12 items-center justify-center rounded bg-amber-500 text-lg font-bold text-[#111]'>
                     E{employee.id}
                   </div>
-                  <span className='rounded-full bg-white/10 px-3 py-1 text-sm font-semibold'>Open</span>
+                  <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${employeeStatus.className}`}>
+                    <span className={`h-2 w-2 rounded-full ${employeeStatus.dotClassName}`}></span>
+                    {employeeStatus.label}
+                  </span>
                 </div>
                 <h3 className='mt-5 text-xl font-bold'>Employee {employee.id}</h3>
                 <p className='mt-1 break-all text-sm text-gray-400'>{employee.email}</p>
+
+                <div className='mt-4 rounded border border-white/10 bg-[#101011] p-3'>
+                  <p className='text-xs font-semibold uppercase tracking-[0.16em] text-gray-500'>Current Status</p>
+                  <p className='mt-2 text-sm font-semibold text-white'>{employeeStatus.detail}</p>
+                </div>
+
+                <div className='mt-3 rounded border border-white/10 bg-[#101011] p-3'>
+                  <p className='text-xs font-semibold uppercase tracking-[0.16em] text-gray-500'>Working Time</p>
+                  <p className='mt-2 text-sm font-semibold text-amber-100'>{workTime}</p>
+                </div>
 
                 <div className='mt-5 grid grid-cols-2 gap-3'>
                   <div className='rounded bg-[#101011] p-3'>
